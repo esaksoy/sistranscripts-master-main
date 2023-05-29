@@ -2,11 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login as auth_login
 from django.views.decorators.csrf import csrf_exempt
 from . import forms as dashboard_forms
-<<<<<<< HEAD
-from .models import Student, Score
-=======
 from .models import Student, Score, Class
->>>>>>> 48a3010 (fix generate pdf functionality)
 from django.http import HttpResponse
 from reportlab.pdfgen import canvas
 
