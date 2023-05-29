@@ -56,22 +56,20 @@
                             <td>{{ class.score }}</td>
                             <td>{{ class.grademark }}</td>
                             <td>{{ class.credit }}</td>
-                            <td><input type="checkbox" name="courses" value="{{ class.classname }}"></td>
+                            <td><input type="checkbox" name="courses[]" value="{{ class.classid }}"></td>
                         </tr>
                     {% endfor %}
                     </tbody>
                 </table>
-
-
-                <input type="hidden" name="year" value="{{ selected_year }}">
                  <button class="btn btn-primary" type="submit">Generate PDF</button>
                 </form>
-                -->
-
-            <br>
+                </form>
+            </div>
 
 
         </div>
+
+
     </div>
 {% endblock %}
 
@@ -84,6 +82,18 @@
 
 
 
+    <!-- Optional JavaScript; choose one of the two! -->
+    <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"
+            integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nP"></script>
+{% endblock %}
+<!-- Option 2: Separate Popper and Bootstrap JS -->
+<!--
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="
     <!-- Optional JavaScript; choose one of the two! -->
     <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
