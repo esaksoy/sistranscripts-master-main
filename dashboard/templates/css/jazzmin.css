@@ -1,0 +1,11 @@
+
+<img class="logo-image" src="{% static 'dashboard/images/harmony.png' %}" alt="Site Logo">
+
+.logo-image {
+  width: 150px; /* Adjust the width to your desired size */
+  height: auto; /* Maintain the aspect ratio */
+}
+
+#sidebar {
+  background-color: #cccccc;
+}
