@@ -5,7 +5,7 @@ from . import forms as dashboard_forms
 from .models import Student, Score, Class
 from django.http import HttpResponse
 from reportlab.pdfgen import canvas
-
+from . import helpers
 
 def index(request):
     obj = Student.objects.all()
@@ -31,13 +31,6 @@ def detail(request, id=None):
 def grades_pdf(request, id):
         
     if request.method == 'POST':
-        
-
-        response = HttpResponse(content_type='application/pdf')
-        response['Content-Disposition'] = 'attachment; filename="grades_report.pdf"'
-
-        p = canvas.Canvas(response)
-
         # year = request.POST.get('year')
 
         student_id = id
@@ -45,29 +38,10 @@ def grades_pdf(request, id):
         classes = request.POST.getlist('courses[]')
         print(classes)
 
-        for class_obj in classes:
-            scores = Score.objects.filter(studentid=obj, classes_taken=class_obj)
-            class_name = Class.objects.get(classid=class_obj).classname
-
-            print(class_obj)
-
-            p.drawString(100, 100, f"Class: {class_name}")
-            p.drawString(100, 120, "Scores:")
-            y_position = 140
-
-            for score in scores:
-                p.drawString(120, y_position, f"Subject: {Score.classes_taken}")
-                p.drawString(120, y_position + 20, f"Score: {Score.score}")
-                y_position += 40
-
-            #p.showPage()
-
+        pdf = helpers.drawPDF(classes, obj)
         # Save the PDF
-        p.save()
 
-        return response
-
-
+    return pdf
 def login(request):
     if request.method == "POST":
         username = request.POST.get("username")
