@@ -18,16 +18,20 @@ def detail(request, id=None):
     obj = get_object_or_404(Student, pk=id)
     year_form = dashboard_forms.YearForm(request.POST or None)
 
-    if request.method == 'POST':
+    if request.method == 'POST' and 'save-go' in request.POST:
         year = request.POST.get('year')
         if year == 'All':
             classes = obj.classes.all()
         else:
             classes = obj.classes.filter(year__year=str(year))
+        selected_values = list(map(int, request.POST.getlist('courses')))
+        request.session['selected_values'] = selected_values
     else:
         classes = obj.classes.all()
+        selected_values = request.session.get('courses', [])
 
-    context = {'object': obj, 'classes': classes, "form": year_form}
+    print(selected_values)
+    context = {'object': obj, 'classes': classes, "form": year_form, 'selected_courses': selected_values}
     return render(request, 'dashboard/detail.html', context)
 
 
@@ -38,7 +42,7 @@ def grades_pdf(request, id):
 
         student_id = id
         obj = get_object_or_404(Student, pk=student_id)
-        classes = request.POST.getlist('courses[]')
+        classes = request.POST.getlist('courses')
         print(classes)
 
         pdf = helpers.drawPDF(classes, obj)

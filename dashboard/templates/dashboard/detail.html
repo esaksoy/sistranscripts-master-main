@@ -23,25 +23,20 @@
             <p>Date of Graduation: {{ object.dateofgraduation }}</p>
         </div>
         <div class="col" style="margin-top: 150px;">
-            <div class="row">
-                <form method="post" action="" style="display: block;">
-                    {% csrf_token %}
-                    <div class="row">
-                        <div class="col">
-                            <h4>Year: </h4>
-                        </div>
-                        <div class="col-4">
-                            {{ form.as_p }}
-                        </div>
-                        <div class="col">
-                            <button class="btn btn-primary" type="submit">Go</button>
-                        </div>
+            <form method="post" action="">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-2">
+                        <h4>Year: </h4>
                     </div>
-                </form>
-            </div>
+                    <div class="col-4">
+                        {{ form.as_p }}
+                    </div>
+                    <div class="col-4">
+                        <button class="btn btn-primary" name="save-go" type="submit">Save & Go</button>
+                    </div>
+                </div>
             <div class="row">
-                <form action="{% url 'grades_pdf' object.studentid %}" method="post">
-                    {% csrf_token %}
                     <table class="table table-bordered" style="width: 600px;">
                         <thead>
                             <tr>
@@ -61,12 +56,12 @@
                                     <td>{{ class.score }}</td>
                                     <td>{{ class.grademark }}</td>
                                     <td>{{ class.credit }}</td>
-                                    <td><input type="checkbox" name="courses[]" value="{{ class.classid }}"></td>
+                                    <td><input type="checkbox" name="courses" value="{{ class.classid }}" {% if class.classid in selected_courses %}checked{% endif %}></td>
                                 </tr>
                             {% endfor %}
                         </tbody>
                     </table>
-                    <button class="btn btn-primary" type="submit">Generate PDF</button>
+                    <button class="btn btn-primary" name="generate-pdf" type="submit">Generate PDF</button>
                 </form>
             </div>
         </div>
