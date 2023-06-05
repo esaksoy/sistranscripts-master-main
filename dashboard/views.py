@@ -14,19 +14,22 @@ def index(request):
 
 @csrf_exempt
 def detail(request, id=None):
+
     obj = get_object_or_404(Student, pk=id)
     year_form = dashboard_forms.YearForm(request.POST or None)
+
     if request.method == 'POST':
         year = request.POST.get('year')
         if year == 'All':
             classes = obj.classes.all()
         else:
             classes = obj.classes.filter(year__year=str(year))
-
     else:
         classes = obj.classes.all()
+
     context = {'object': obj, 'classes': classes, "form": year_form}
     return render(request, 'dashboard/detail.html', context)
+
 
 def grades_pdf(request, id):
         
@@ -42,6 +45,8 @@ def grades_pdf(request, id):
         # Save the PDF
 
     return pdf
+
+
 def login(request):
     if request.method == "POST":
         username = request.POST.get("username")

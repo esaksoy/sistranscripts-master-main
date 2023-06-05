@@ -10,7 +10,7 @@ urlpatterns = [
     path("login/", views.login, name="login"),
     path('logout/', views.logout, name='logout'),
     path('<int:id>/', views.detail, name='detail'),
-    path('details_per_student/', views.detail, name='detail'),
+    #path('details_per_student/', views.detail, name='detail'),
     path('<int:id>/grades_pdf/', views.grades_pdf, name='grades_pdf'),
 ]
 
