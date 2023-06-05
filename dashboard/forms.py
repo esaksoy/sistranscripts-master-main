@@ -3,7 +3,7 @@ from . import models as dashboard_models
 
 
 class YearForm(forms.Form):
-    year = forms.ChoiceField(choices=dashboard_models.YEAR_CHOICES, label='Year',
+    year = forms.ChoiceField(choices=dashboard_models.YEAR_CHOICES, label='',
                              widget=forms.Select(attrs={
                                  "placeholder": "",
                                  "class": "form-control"
