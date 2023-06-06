@@ -18,37 +18,47 @@ def detail(request, id=None):
     obj = get_object_or_404(Student, pk=id)
     year_form = dashboard_forms.YearForm(request.POST or None)
 
+    # if the request method is POST and send by save & continue button, exacute ...
     if request.method == 'POST' and 'save-go' in request.POST:
         year = request.POST.get('year')
         if year == 'All':
             classes = obj.classes.all()
         else:
             classes = obj.classes.filter(year__year=str(year))
-        selected_values = list(map(int, request.POST.getlist('courses')))
-        request.session['selected_values'] = selected_values
+
+        # Get the selected courses and save them in a session so that they can be kept selected until they are send to 
+        # drawPDF function.
+        selected_values = request.POST.getlist('courses')
+
+        if not 'selected_values' in request.session or not request.session['selected_values']:
+            request.session['selected_values'] = [int(i) for i in selected_values] 
+        else:
+            saved_list = request.session['selected_values']
+            for value in selected_values:
+                if value not in saved_list:
+                    saved_list.append(int(value))
+            request.session['selected_values'] = saved_list
+
+        selected_courses = request.session['selected_values']
+        print(selected_courses)
+
+    # if the request methof is POST and send by generate pdf button, exacute ...
+    elif request.method == 'POST' and 'generate-pdf' in request.POST:
+        classes = request.POST.getlist('courses')
+        pdf = helpers.drawPDF(classes, obj)
+        return pdf
+    
+    # if the request method is GET
     else:
         classes = obj.classes.all()
         selected_values = request.session.get('courses', [])
+        saved_list = []
+        request.session['selected_values'] = []
+        selected_courses = []
 
-    print(selected_values)
-    context = {'object': obj, 'classes': classes, "form": year_form, 'selected_courses': selected_values}
+    
+    context = {'object': obj, 'classes': classes, "form": year_form, 'selected_courses': selected_courses}
     return render(request, 'dashboard/detail.html', context)
-
-
-def grades_pdf(request, id):
-        
-    if request.method == 'POST':
-        # year = request.POST.get('year')
-
-        student_id = id
-        obj = get_object_or_404(Student, pk=student_id)
-        classes = request.POST.getlist('courses')
-        print(classes)
-
-        pdf = helpers.drawPDF(classes, obj)
-        # Save the PDF
-
-    return pdf
 
 
 def login(request):
