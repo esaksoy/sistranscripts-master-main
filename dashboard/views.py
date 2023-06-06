@@ -42,13 +42,13 @@ def detail(request, id=None):
         selected_courses = request.session['selected_values']
         print(selected_courses)
 
-    # if the request methof is POST and send by generate pdf button, exacute ...
+    # if the request methof is POST and send by generate pdf button, create the pdf file and download it.
     elif request.method == 'POST' and 'generate-pdf' in request.POST:
         classes = request.POST.getlist('courses')
         pdf = helpers.drawPDF(classes, obj)
         return pdf
     
-    # if the request method is GET
+    # if the request method is GET, get all classes and clear the selected courses
     else:
         classes = obj.classes.all()
         selected_values = request.session.get('courses', [])
